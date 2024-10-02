@@ -9,6 +9,8 @@ Route::controller(PostController::class)
     ->group(function () {
         Route::get('', 'list')->name('posts.list');
         Route::get('{post}', 'show')->name('posts.show');
+        Route::post('add', 'add')->name('posts.add');
+        Route::post('{post}/review', 'review')->name('posts.review');
 
     });
 
