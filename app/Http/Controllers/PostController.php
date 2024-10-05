@@ -118,7 +118,7 @@ class PostController extends Controller
 
              // DTO
              $data = [];
-             
+
              if ($request->has('title')) {
                  $data['title'] = $request->input('title');
              }
@@ -142,6 +142,21 @@ class PostController extends Controller
         return response()->json([
             'status' => 'updated success',
         ], 201);
+    }
+
+
+
+
+    public function destroy(Post $post) {
+
+        $post->delete();
+
+        return response()->json([
+           'status' => 'delete success',
+        ]);
+
+
+
     }
 
 
