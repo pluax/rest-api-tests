@@ -8,6 +8,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Enums\PostStatus;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\Post\PostRequest;
+use App\Http\Requests\Post\ReviewRequest;
+
+
 class PostController extends Controller
 {
     //
@@ -35,7 +39,7 @@ class PostController extends Controller
 
 
 
-    public function show(Post $post)
+    public function show(Request $post)
     {
 
         if ($post->status !== PostStatus::Published) {
@@ -59,7 +63,7 @@ class PostController extends Controller
     }
 
 
-    public function add(Request $request) {
+    public function add(PostRequest $request) {
 
         $path = $request->file('thumbnail')->storePublicly('images');
 
@@ -81,7 +85,7 @@ class PostController extends Controller
 
 
 
-    public function review(Post $post, Request $request) {
+    public function review(Post $post, ReviewRequest $request) {
 
         $user = auth()->id();
 
