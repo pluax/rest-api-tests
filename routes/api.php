@@ -13,6 +13,7 @@ Route::controller(PostController::class)
         Route::post('{post}/review', 'review')->name('posts.review');
         Route::put('{post}', 'update')->name('posts.update');
         Route::patch('{post}', 'update')->name('posts.update');
+        Route::delete('{post}', 'destroy')->name('posts.destroy');
 
     });
 
