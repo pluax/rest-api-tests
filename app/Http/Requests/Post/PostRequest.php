@@ -16,7 +16,7 @@ class PostRequest extends ApiRequest
             'content'       => ['string'],
             'thumbnail'     => ['image', 'max:500'],
             'state'         => ['required', new Enum(PostStatus::class) ],
-            'categoryId'    => ['numeric'],
+            'categoryId'    => ['numeric', 'exists:categories,id'],
         ];
     }
 }

@@ -11,6 +11,8 @@ Route::controller(PostController::class)
         Route::get('{post}', 'show')->name('posts.show');
         Route::post('add', 'add')->name('posts.add');
         Route::post('{post}/review', 'review')->name('posts.review');
+        Route::put('{post}', 'update')->name('posts.update');
+        Route::patch('{post}', 'update')->name('posts.update');
 
     });
 
