@@ -10,6 +10,7 @@ use App\Enums\PostStatus;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Post\PostRequest;
 use App\Http\Requests\Post\ReviewRequest;
+use App\Http\Requests\Post\UpdateRequest;
 
 
 class PostController extends Controller
@@ -100,6 +101,47 @@ class PostController extends Controller
             'id' => $review->id,
         ], 201);
 
+    }
+
+
+
+    public function update(Post $post, UpdateRequest $request) {
+
+         if ($request->method() === 'PUT') {
+             $posts = $post->update([
+                'title'         =>  $request->input('title'),
+                'body'          =>  $request->input('content'),
+                'status'        =>  $request->enum('state', PostStatus::class),
+                'category_id'   =>  $request->input('categoryId'),
+             ]);
+         } else {
+
+             // DTO
+             $data = [];
+             
+             if ($request->has('title')) {
+                 $data['title'] = $request->input('title');
+             }
+
+             if ($request->has('body')) {
+                 $data['content'] = $request->input('body');
+             }
+
+             if ($request->has('state')) {
+                 $data['status'] = $request->enum('state', PostStatus::class);
+             }
+
+             if ($request->has('categoryId')) {
+                 $data['category_id'] = $request->input('categoryId');
+             }
+
+             $post->update($data);
+
+         }
+
+        return response()->json([
+            'status' => 'updated success',
+        ], 201);
     }
 
 
