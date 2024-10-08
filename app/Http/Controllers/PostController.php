@@ -8,8 +8,6 @@ use App\Http\Requests\Post\ReviewRequest;
 use App\Http\Requests\Post\UpdateRequest;
 use App\Models\Comment;
 use App\Models\Post;
-use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
@@ -17,7 +15,7 @@ class PostController extends Controller
 
 
     public function __construct(){
-        auth()->login(User::first());
+        $this->middleware('auth')->only(['store', 'update', 'destroy', 'review']);
     }
 
 
@@ -41,6 +39,7 @@ class PostController extends Controller
 
     public function store(PostRequest $request)
     {
+       // dd($request->bearerToken());
         $path = $request->file('thumbnail')->storePublicly('images');
 
         $posts = auth()->user()->posts()->create([
