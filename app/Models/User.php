@@ -57,16 +57,17 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'api_token',
     ];
 
-    /**
+
+    /*
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
     /**
