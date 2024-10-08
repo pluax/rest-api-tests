@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\User\LoginRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
+use Laravel\Sanctum\NewAccessToken;
+
 
 
 class UserController extends Controller
@@ -20,12 +21,10 @@ class UserController extends Controller
             ], 401);
         }
         $user = Auth('web')->user();
-        $token = Str::random(50);
+        $token = $user->createToken('login');
 
-        $user->update(
-            ['api_token' => $token ],
-        );
-        return ['token' => $token];
+
+        return ['token' => $token->plainTextToken];
     }
 
 

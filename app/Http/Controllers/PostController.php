@@ -15,7 +15,8 @@ class PostController extends Controller
 
 
     public function __construct(){
-        $this->middleware('auth')->only(['store', 'update', 'destroy', 'review']);
+        $this->middleware('auth:sanctum')
+            ->only(['store', 'update', 'destroy', 'review']);
     }
 
 
