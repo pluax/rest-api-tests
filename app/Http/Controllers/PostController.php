@@ -67,15 +67,15 @@ class PostController extends Controller
     {
 
             return [
-                "title" => $post->title,
-                "body" => $post->body,
-                "views" => $post->views,
-                "authorName" => $post->user->name,
-                "createdAt" => $post->created_at,
+                "title"        => $post->title,
+                "body"         => $post->body,
+                "views"        => $post->views,
+                "authorName"   => $post->user->name,
+                "createdAt"    => $post->created_at,
                 "categoryName" => $post->category->name,
-                "comments" => $post->comments->map(fn(Comment $comment) => [
-                    "userName" => $comment->user->name,
-                    "text" => $comment->text,
+                "comments"     => $post->comments->map(fn(Comment $comment) => [
+                    "userName"   => $comment->user->name,
+                    "text"       => $comment->text,
                 ]),
             ];
     }
