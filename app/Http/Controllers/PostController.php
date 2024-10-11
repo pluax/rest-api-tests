@@ -16,7 +16,11 @@ class PostController extends Controller
 
     public function __construct(){
         $this->middleware('auth:sanctum')
-            ->only(['store', 'update', 'destroy', 'review']);
+            ->only(['store', 'update', 'destroy', 'review', 'show']);
+
+        $this->middleware('post.status')
+            ->only(['show']);
+
     }
 
 
@@ -61,26 +65,19 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-      ///  dd($post);
-        //return 'no';
-        if ($post->status !== PostStatus::Published) {
-            return response()->json([
-                'message' => 'Post not found',
-            ], 404);
-        }
 
-        return [
-            "title"        => $post->title,
-            "body"         => $post->body,
-            "views"        => $post->views,
-            "authorName"   => $post->user->name,
-            "createdAt"    => $post->created_at,
-            "categoryName" => $post->category->name,
-            "comments"     => $post->comments->map(fn (Comment $comment) => [
-                "userName" => $comment->user->name,
-                "text"     => $comment->text,
-            ]),
-        ];
+            return [
+                "title" => $post->title,
+                "body" => $post->body,
+                "views" => $post->views,
+                "authorName" => $post->user->name,
+                "createdAt" => $post->created_at,
+                "categoryName" => $post->category->name,
+                "comments" => $post->comments->map(fn(Comment $comment) => [
+                    "userName" => $comment->user->name,
+                    "text" => $comment->text,
+                ]),
+            ];
     }
 
 
