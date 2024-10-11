@@ -9,6 +9,9 @@ use App\Http\Requests\Post\UpdateRequest;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\Post\PostResource;
+use App\Http\Resources\Post\MinifiedPostResource;
+
 
 class PostController extends Controller
 {
@@ -26,18 +29,12 @@ class PostController extends Controller
 
     public function index()
     {
-            $posts = Post::query()
-                ->select(['id', 'title', 'thumbnail', 'views', 'created_at'])
-                ->whereStatus(PostStatus::Published)
-                ->get();
+       $posts = Post::query()
+               ->select(['id', 'title', 'thumbnail', 'views', 'created_at'])
+               ->whereStatus(PostStatus::Published)
+               ->get();
 
-
-            return $posts->map(fn(Post $posts) => [
-                "title"     => $posts->title,
-                "thumbnail" => $posts->thumbnail,
-                "views"     => $posts->views,
-                "createdAt" => $posts->created_at,
-            ]);
+       return MinifiedPostResource::collection($posts);
 
     }
 
@@ -65,19 +62,7 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-
-            return [
-                "title"        => $post->title,
-                "body"         => $post->body,
-                "views"        => $post->views,
-                "authorName"   => $post->user->name,
-                "createdAt"    => $post->created_at,
-                "categoryName" => $post->category->name,
-                "comments"     => $post->comments->map(fn(Comment $comment) => [
-                    "userName"   => $comment->user->name,
-                    "text"       => $comment->text,
-                ]),
-            ];
+        return new PostResource($post);
     }
 
 
